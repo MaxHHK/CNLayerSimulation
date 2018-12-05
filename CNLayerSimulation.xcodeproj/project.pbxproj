@@ -25,6 +25,15 @@
 /* Begin PBXFileReference section */
 		506CD1CE21B7E93900438F79 /* CNLayerSimulation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CNLayerSimulation; sourceTree = BUILT_PRODUCTS_DIR; };
 		506CD1D121B7E93900438F79 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		506CD1D821B7E95A00438F79 /* processIP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processIP.hpp; sourceTree = "<group>"; };
+		506CD1DA21B7E95A00438F79 /* processMac.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = processMac.cpp; sourceTree = "<group>"; };
+		506CD1DB21B7E95A00438F79 /* processMac.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processMac.hpp; sourceTree = "<group>"; };
+		506CD1DC21B7E95A00438F79 /* interface.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interface.hpp; sourceTree = "<group>"; };
+		506CD1DD21B7E95B00438F79 /* processIP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = processIP.cpp; sourceTree = "<group>"; };
+		506CD1DE21B7E95B00438F79 /* cnformat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cnformat.h; sourceTree = "<group>"; };
+		506CD1DF21B7E95B00438F79 /* processTCP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = processTCP.cpp; sourceTree = "<group>"; };
+		506CD1E021B7E95B00438F79 /* processTCP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processTCP.hpp; sourceTree = "<group>"; };
+		506CD1E121B7E95B00438F79 /* interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +66,15 @@
 		506CD1D021B7E93900438F79 /* CNLayerSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				506CD1DE21B7E95B00438F79 /* cnformat.h */,
+				506CD1E121B7E95B00438F79 /* interface.cpp */,
+				506CD1DC21B7E95A00438F79 /* interface.hpp */,
+				506CD1DD21B7E95B00438F79 /* processIP.cpp */,
+				506CD1D821B7E95A00438F79 /* processIP.hpp */,
+				506CD1DA21B7E95A00438F79 /* processMac.cpp */,
+				506CD1DB21B7E95A00438F79 /* processMac.hpp */,
+				506CD1DF21B7E95B00438F79 /* processTCP.cpp */,
+				506CD1E021B7E95B00438F79 /* processTCP.hpp */,
 				506CD1D121B7E93900438F79 /* main.cpp */,
 			);
 			path = CNLayerSimulation;

@@ -14,9 +14,9 @@ class ProcessIP {
     // Data
 public:
     // function
-    Data encapsulate(string fromUpLayer);
-    Data disassemble(string currentLayerData);
-    vector <DataFormat> interpret(Data);
+    Data encapsulate(const string fromUpLayer);
+    Data disassemble(const string currentLayerData);
+    vector <DataFormat> interpret(const Data);
 };
 
 #endif /* processIP_hpp */

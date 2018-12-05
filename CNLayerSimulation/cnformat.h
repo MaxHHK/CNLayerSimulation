@@ -32,13 +32,13 @@ struct Basic{
     string desMac[NumOfMac];
     int srcPort;
     int desPort;
-    const int TTL;
+    int TTL;
     Layer TransportLayer;
     Layer IPLayer;
     Layer DataLayer;
 };
 
-Basic basisInformation();
+Basic basisInformation;
 
 // interact with inferface
 struct DataFormat {
