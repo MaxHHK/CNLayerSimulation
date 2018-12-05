@@ -16,11 +16,22 @@
 #include "processIP.cpp"
 #include "processMac.cpp"
 
+const int MAX_WIDTH  = 150;
+const int MAX_LENGTH = 40;
+
+struct Segment {
+    int x, y;
+    int width, height;
+};
+
 // Interface class
 class Interface {
 public:
     // Data:
     // Function:
+    bool printBoard(Segment);
+    bool printAtSegment(Segment, const char *, ...);
+    bool printAtSegment(Segment, int, int, const char *, ...);
     bool moveToCommand(void);
     Interface () {}
 };

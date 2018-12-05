@@ -34,6 +34,8 @@
 		506CD1DF21B7E95B00438F79 /* processTCP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = processTCP.cpp; sourceTree = "<group>"; };
 		506CD1E021B7E95B00438F79 /* processTCP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processTCP.hpp; sourceTree = "<group>"; };
 		506CD1E121B7E95B00438F79 /* interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
+		506CD1E221B81F7900438F79 /* email.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = email.cpp; sourceTree = "<group>"; };
+		506CD1E321B81F7900438F79 /* email.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = email.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,8 @@
 				506CD1DE21B7E95B00438F79 /* cnformat.h */,
 				506CD1E121B7E95B00438F79 /* interface.cpp */,
 				506CD1DC21B7E95A00438F79 /* interface.hpp */,
+				506CD1E221B81F7900438F79 /* email.cpp */,
+				506CD1E321B81F7900438F79 /* email.hpp */,
 				506CD1DD21B7E95B00438F79 /* processIP.cpp */,
 				506CD1D821B7E95A00438F79 /* processIP.hpp */,
 				506CD1DA21B7E95A00438F79 /* processMac.cpp */,
