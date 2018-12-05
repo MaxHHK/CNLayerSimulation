@@ -13,6 +13,16 @@
 
 int main(int argc, const char * argv[]) {
     Interface inter;
-    inter.moveToCommand();
+    Segment seg2(2, 2, 10, 10);
+    while (1) {
+        string cmd;
+        cin >> cmd;
+        if (cmd == "exit") {
+            break;
+        } else {
+            inter.moveToCommand();
+            printf("next:");
+        }
+    }
     return 0;
 }
