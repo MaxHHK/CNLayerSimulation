@@ -36,6 +36,8 @@
 		506CD1E121B7E95B00438F79 /* interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
 		506CD1E221B81F7900438F79 /* email.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = email.cpp; sourceTree = "<group>"; };
 		506CD1E321B81F7900438F79 /* email.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = email.hpp; sourceTree = "<group>"; };
+		506CD1E421B9829000438F79 /* tool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tool.cpp; sourceTree = "<group>"; };
+		506CD1E521B9829000438F79 /* tool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tool.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,15 +75,25 @@
 				506CD1DC21B7E95A00438F79 /* interface.hpp */,
 				506CD1E221B81F7900438F79 /* email.cpp */,
 				506CD1E321B81F7900438F79 /* email.hpp */,
+				506CD1E621B9855400438F79 /* process */,
+				506CD1D121B7E93900438F79 /* main.cpp */,
+				506CD1E421B9829000438F79 /* tool.cpp */,
+				506CD1E521B9829000438F79 /* tool.hpp */,
+			);
+			path = CNLayerSimulation;
+			sourceTree = "<group>";
+		};
+		506CD1E621B9855400438F79 /* process */ = {
+			isa = PBXGroup;
+			children = (
+				506CD1E021B7E95B00438F79 /* processTCP.hpp */,
 				506CD1DD21B7E95B00438F79 /* processIP.cpp */,
 				506CD1D821B7E95A00438F79 /* processIP.hpp */,
 				506CD1DA21B7E95A00438F79 /* processMac.cpp */,
 				506CD1DB21B7E95A00438F79 /* processMac.hpp */,
 				506CD1DF21B7E95B00438F79 /* processTCP.cpp */,
-				506CD1E021B7E95B00438F79 /* processTCP.hpp */,
-				506CD1D121B7E93900438F79 /* main.cpp */,
 			);
-			path = CNLayerSimulation;
+			name = process;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

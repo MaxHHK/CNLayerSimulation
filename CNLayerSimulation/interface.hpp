@@ -18,14 +18,17 @@
 #include "processIP.cpp"
 #include "processMac.cpp"
 
-struct Segment {
+struct Window {
     bool withNum;
     int x, y;
     int width, height;
-    Segment(int x, int y, int w, int h): x(x), y(y), width(w), height(h) {
+    string title;
+    Window() {}
+    Window(int x, int y, int w, int h, string head = ""): x(x), y(y), width(w), height(h), title(head) {
         withNum = false;
+        head.clear();
     }
-    Segment(int x, int y, int w, int h, bool with): x(x), y(y), width(w), height(h), withNum(with) {}
+    Window(int x, int y, int w, int h, bool with, string head = ""): x(x), y(y), width(w), height(h), withNum(with), title(head) {}
 };
 
 // Interface class
@@ -34,39 +37,51 @@ class Interface {
     static const int BUFFSIZE = 1024;
     static const int MAX_WIDTH  = 150;
     static const int MAX_HEIGHT = 38;
+    static const Window edge;
     // move cursor up, down left and right
     bool moveUp(int);
     bool moveDown(int);
     bool moveLeft(int);
     bool moveRight(int);
     bool resetCursor(void);
-    bool moveAt(Segment, int, int);
-    bool moveToSegment(Segment);
+    bool moveToSegment(Window);
     bool printLine(char, int);
     bool printValist(va_list ap, const char *fmt);
+    bool printEdge(void);
 public:
     // Data:
     // Function:
-    bool clearSegment(Segment);
-    bool printBoard(Segment);
-    bool printAtSegment(Segment, int, const char *, ...);
-    bool printAtSegment(Segment, int, int, const char *, ...);
+    bool clearSegment(Window);
+    bool printBoard(Window);
+    bool printAtSegment(Window, int, const char *, ...);
+    bool printAtSegment(Window, int, int, const char *, ...);
     bool moveToCommand(void);
+    bool moveAt(Window, int, int);
+    string getLine(Window);
     Interface ();
 };
 
-// Email class
-class Email {
+// ApplicationLayer class
+class ApplicationLayer {
 private:
     // Data:
+    static const string Titles[4];
+    static const int Places[4];
+    static const int Lines[4];
+    static const int INTER = 3;
+    static const int LEFT_OFFSET = 25;
+    static const int WIDTH = 90;
     Interface inter;
+    vector<Window> windows;
     // Function:
 public:
     // Data:
     
     // Function:
     // Constructors
-    Email () {};
+    string sendEmail(void);
+    bool writeEmail(string);
+    ApplicationLayer ();
 };
 
 #endif /* interface_hpp */
