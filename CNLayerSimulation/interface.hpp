@@ -19,9 +19,13 @@
 #include "processMac.cpp"
 
 struct Segment {
+    bool withNum;
     int x, y;
     int width, height;
-    Segment(int x, int y, int w, int h): x(x), y(y), width(w), height(h) {}
+    Segment(int x, int y, int w, int h): x(x), y(y), width(w), height(h) {
+        withNum = false;
+    }
+    Segment(int x, int y, int w, int h, bool with): x(x), y(y), width(w), height(h), withNum(with) {}
 };
 
 // Interface class
@@ -49,6 +53,20 @@ public:
     bool printAtSegment(Segment, int, int, const char *, ...);
     bool moveToCommand(void);
     Interface ();
+};
+
+// Email class
+class Email {
+private:
+    // Data:
+    Interface inter;
+    // Function:
+public:
+    // Data:
+    
+    // Function:
+    // Constructors
+    Email () {};
 };
 
 #endif /* interface_hpp */

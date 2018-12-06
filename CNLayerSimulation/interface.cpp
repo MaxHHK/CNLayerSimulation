@@ -36,14 +36,14 @@ inline bool Interface:: resetCursor() {
 bool Interface:: moveAt(Segment seg, int x, int y) {
     moveToSegment(seg);
     moveDown(x);
-    moveRight(y + 2);
+    seg.withNum ? moveRight(y + 2) : moveRight(y);
     return true;
 }
 
 inline bool Interface:: moveToSegment(Segment seg) {
     resetCursor();
-    moveDown(seg.x);
-    moveRight(seg.y);
+    moveDown(seg.x + 1);
+    moveRight(seg.y + 3);
     return true;
 }
 
@@ -77,10 +77,15 @@ bool Interface:: printBoard(Segment seg) {
     moveToSegment(seg);
     printLine('-', seg.width);
     moveLeft(seg.width);
-    for (int i = 1; i < seg.height - 2; i++) {
+    for (int i = 1; i < seg.height - 1; i++) {
         moveDown(1);
-        printf("%2d|", i);
-        printLine(' ', seg.width - 4);
+        if (seg.withNum) {
+            printf("%2d|", i);
+            printLine(' ', seg.width - 4);
+        } else {
+            putchar('|');
+            printLine(' ', seg.width - 2);
+        }
         putchar('|');
         moveLeft(seg.width);
     }
@@ -93,10 +98,11 @@ bool Interface:: printBoard(Segment seg) {
 
 bool Interface:: printAtSegment(Segment seg, int line, const char *fmt, ...) {
     moveAt(seg, line, 1);
-    for (int i = 0; i < seg.width - 2; i++) {
+    int left = seg.withNum ? seg.width - 4 : seg.width - 2;
+    for (int i = 0; i < left; i++) {
         printf(" ");
     }
-    moveLeft(seg.width - 2);
+    moveLeft(left);
     
     va_list ap;
     va_start(ap, fmt);
@@ -123,35 +129,25 @@ bool Interface:: printAtSegment(Segment seg, int x, int y, const char *fmt, ...)
 
 bool Interface:: moveToCommand(void) {
     resetCursor();
-    moveDown(MAX_HEIGHT - 1);
-    putchar('|');
-    printLine(' ', MAX_WIDTH - 2);
+    moveDown(MAX_HEIGHT);
+    printf(" %d|", MAX_HEIGHT - 1);
+    printLine(' ', MAX_WIDTH - 4);
     putchar('|');
     moveLeft(MAX_WIDTH);
     moveUp(1);
+    printf("%d|$ ", MAX_HEIGHT - 2);
+    printLine(' ', MAX_WIDTH - 6);
     putchar('|');
-    printLine(' ', MAX_WIDTH - 2);
-    putchar('|');
-    moveLeft(MAX_WIDTH - 1);
-    printf("$ ");
+    moveLeft(MAX_WIDTH - 5);
     return true;
 }
 
 Interface:: Interface() {
     system("clear");
-    printLine('-', MAX_WIDTH);
-    moveLeft(MAX_WIDTH);
-    for (int i = 1; i < MAX_HEIGHT; i++) {
-        moveDown(1);
-        putchar('|');
-        printLine(' ', MAX_WIDTH - 2);
-        putchar('|');
-        moveLeft(MAX_WIDTH);
-    }
-    moveUp(2);
-    printLine('-', MAX_WIDTH);
-    moveLeft(MAX_WIDTH);
-    moveDown(3);
-    printLine('-', MAX_WIDTH);
+    Segment seg(0, -2, MAX_WIDTH, MAX_HEIGHT + 1, true);
+    printBoard(seg);
+    moveToSegment(seg);
+    moveAt(seg, MAX_HEIGHT - 3, 1);
+    printLine('-', MAX_WIDTH - 4);
     moveToCommand();
 }
