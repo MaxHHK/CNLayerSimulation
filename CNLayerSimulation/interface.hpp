@@ -37,7 +37,6 @@ class Interface {
     static const int BUFFSIZE = 1024;
     static const int MAX_WIDTH  = 150;
     static const int MAX_HEIGHT = 38;
-    static const Window edge;
     // move cursor up, down left and right
     bool moveUp(int);
     bool moveDown(int);
@@ -50,6 +49,7 @@ class Interface {
     bool printEdge(void);
 public:
     // Data:
+    static const Window edge;
     // Function:
     bool clearSegment(Window);
     bool printBoard(Window);
@@ -85,27 +85,44 @@ public:
 };
 
 enum LayerWindows {
-    infoLayer,
-    lastLayer,
-    currentValue,
-    head,
-    tail,
+    infoWindow = 0,
+    lastLayerWindow = 1,
+    currentValueWindow = 2,
+    fakeDataWindow = 3,
+    headWindow = 4,
+    tailWindow = 5,
 };
 
 // IPLayer class
-class IPLayer {
+class LayerInterpret {
 private:
     // Data:
+    static const int InfoBegin = 3;
+    static const int LeftBegin = 4;
+    static const int InfoWidth = 65;
+    static const int InfoLines = 18;
+    static const int FakeDataWidth = 14;
+    static const int WidthOffset = 8;
+    static const int HeightOffset = 4;
+    static const int WholeDataLines = 6;
+    int trueWidth;
+    int trueHeight;
+    string dataFromLastLayer;
+    Data encapsulatedData;
+    vector<DataFormat> explainItems;
     Interface inter;
     ProcessIP process;
     vector<Window> windows;
+    Layer thisLayer;
     // Function:
+    bool runIP();
 public:
     // Data:
     
     // Function:
+    bool interpret(string);
     // Constructors
-    IPLayer ();
+    LayerInterpret (Layer);
 };
 
 #endif /* interface_hpp */

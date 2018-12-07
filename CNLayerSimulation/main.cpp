@@ -13,12 +13,14 @@
 #include "tool.cpp"
 
 int main(int argc, const char * argv[]) {
-    ApplicationLayer sendEmail;
-    string email = sendEmail.sendEmail();
-    ApplicationLayer receiveEmail;
-    getchar();
-    sendEmail.writeEmail(email);
+//    ApplicationLayer sendEmail;
+//    string email = sendEmail.sendEmail();
+//    ApplicationLayer receiveEmail;
+//    getchar();
+//    sendEmail.writeEmail(email);
     
+    LayerInterpret ip(IP);
+    ip.interpret("hhaha");
     return 0;
 }
 

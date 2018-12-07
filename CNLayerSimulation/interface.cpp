@@ -166,12 +166,16 @@ bool Interface:: moveToCommand(void) {
 
 string Interface:: getLine(Window seg) {
     char input[BUFFSIZE], *t = input;
-    moveToSegment(seg);
-    moveDown(1);
-    moveRight(1);
+    if (seg.title == edge.title) {
+        moveToCommand();
+    } else {
+        moveToSegment(seg);
+        moveDown(1);
+        moveRight(1);
+    }
     while((*(t++) = getchar()) != '\n') { }
     *(t-1) = 0;
-    if (strcpy(input, "exit")) {
+    if (strcpy(input, "exit") == 0) {
         exit(0);
     }
     return input;
@@ -224,6 +228,86 @@ ApplicationLayer:: ApplicationLayer () {
     }
 }
 
-IPLayer:: IPLayer() {
-    Window tmp();
+static const int WIDTH_HEIGHT[4][2] = {
+    0, 0,
+    80, 4,
+    80, 4,
+    0, 0
+};
+
+string TITLES[6] = {
+    "Explain Window",
+    "Last Layer Data Window",
+    "Constructing ... ",
+    "--|Data|",
+    "Head Window",
+    "Tail Window",
+};
+
+
+bool LayerInterpret:: runIP() {
+    ProcessIP ip;
+    encapsulatedData = ip.encapsulate(dataFromLastLayer);
+    explainItems = ip.interpret(encapsulatedData);
+    return true;
+}
+
+
+bool LayerInterpret:: interpret(string lastLayer) {
+    dataFromLastLayer = lastLayer;
+    switch (thisLayer) {
+        case IP:
+            runIP();
+            break;
+            
+        default:
+            break;
+    }
+    string cmd;
+    inter.printAtSegment(windows[lastLayerWindow], 1, dataFromLastLayer.data());
+    for (vector<DataFormat>::iterator it = explainItems.begin(); it < explainItems.end(); it++) {
+        cmd = inter.getLine(inter.edge);
+        if (cmd == ".") {
+            break;
+        }
+        int x = it->indexOfField / trueWidth + 1;
+        int y = it->indexOfField % trueWidth + 1;
+        inter.printAtSegment(windows[infoWindow], 1, it->explainOfField.data());
+        inter.printAtSegment(windows[headWindow], x, y, it->valueOfField.data());
+    }
+    inter.printAtSegment(windows[currentValueWindow], 1, (encapsulatedData.head+encapsulatedData.dataOfUpLayer+encapsulatedData.tail).data());
+    return true;
+}
+
+LayerInterpret:: LayerInterpret(Layer l): thisLayer(l) {
+    trueWidth = WIDTH_HEIGHT[thisLayer][0];
+    trueHeight = WIDTH_HEIGHT[thisLayer][1];;
+    Window tmp1(InfoBegin, LeftBegin, InfoWidth, InfoLines);
+    windows.push_back(tmp1);
+    
+    Window tmp2(InfoBegin, InfoWidth + WidthOffset, InfoWidth, InfoLines);
+    windows.push_back(tmp2);
+    
+    Window tmp3(InfoBegin + InfoLines + HeightOffset + trueHeight, LeftBegin, InfoWidth * 2, WholeDataLines);
+    windows.push_back(tmp3);
+    
+    Window tmp4(InfoBegin + InfoLines + HeightOffset, trueWidth + LeftBegin * 3, FakeDataWidth, trueHeight);
+    windows.push_back(tmp4);
+    
+    Window tmp5(InfoBegin + InfoLines + HeightOffset, LeftBegin * 3-2, trueWidth + 2, trueHeight);
+    windows.push_back(tmp5);
+    
+    // print lastLayerWindow to fakeDataWindow
+    for (int i = 0; i < 4; i++) {
+        inter.printAtSegment(inter.edge, 21 + i, 74 + i * 5, "\\");
+        inter.printAtSegment(inter.edge, 21 + i, 135 - i * 8, "/");
+    }
+    
+    // print board
+    for (int i = 0; i < 5; i++) {
+        windows[i].title = TITLES[i];
+        inter.printBoard(windows[i]);
+    }
+    
+    inter.printAtSegment(windows[fakeDataWindow], 1, "   D A T A");
 }
