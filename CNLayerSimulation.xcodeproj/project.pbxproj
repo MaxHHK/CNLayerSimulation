@@ -23,6 +23,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		504561ED21BA16AD00BB1D5D /* _socket_.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = _socket_.cpp; sourceTree = "<group>"; };
+		504561EE21BA16AD00BB1D5D /* _socket_.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = _socket_.hpp; sourceTree = "<group>"; };
 		506CD1CE21B7E93900438F79 /* CNLayerSimulation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CNLayerSimulation; sourceTree = BUILT_PRODUCTS_DIR; };
 		506CD1D121B7E93900438F79 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		506CD1D821B7E95A00438F79 /* processIP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processIP.hpp; sourceTree = "<group>"; };
@@ -34,8 +36,6 @@
 		506CD1DF21B7E95B00438F79 /* processTCP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = processTCP.cpp; sourceTree = "<group>"; };
 		506CD1E021B7E95B00438F79 /* processTCP.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = processTCP.hpp; sourceTree = "<group>"; };
 		506CD1E121B7E95B00438F79 /* interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
-		506CD1E221B81F7900438F79 /* email.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = email.cpp; sourceTree = "<group>"; };
-		506CD1E321B81F7900438F79 /* email.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = email.hpp; sourceTree = "<group>"; };
 		506CD1E421B9829000438F79 /* tool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tool.cpp; sourceTree = "<group>"; };
 		506CD1E521B9829000438F79 /* tool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tool.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -71,10 +71,10 @@
 			isa = PBXGroup;
 			children = (
 				506CD1DE21B7E95B00438F79 /* cnformat.h */,
+				504561ED21BA16AD00BB1D5D /* _socket_.cpp */,
+				504561EE21BA16AD00BB1D5D /* _socket_.hpp */,
 				506CD1E121B7E95B00438F79 /* interface.cpp */,
 				506CD1DC21B7E95A00438F79 /* interface.hpp */,
-				506CD1E221B81F7900438F79 /* email.cpp */,
-				506CD1E321B81F7900438F79 /* email.hpp */,
 				506CD1E621B9855400438F79 /* process */,
 				506CD1D121B7E93900438F79 /* main.cpp */,
 				506CD1E421B9829000438F79 /* tool.cpp */,
