@@ -171,6 +171,9 @@ string Interface:: getLine(Window seg) {
     moveRight(1);
     while((*(t++) = getchar()) != '\n') { }
     *(t-1) = 0;
+    if (strcpy(input, "exit")) {
+        exit(0);
+    }
     return input;
 }
 
@@ -219,4 +222,8 @@ ApplicationLayer:: ApplicationLayer () {
         windows.push_back(tmp);
         inter.printBoard(tmp);
     }
+}
+
+IPLayer:: IPLayer() {
+    Window tmp();
 }

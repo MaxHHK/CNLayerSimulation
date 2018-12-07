@@ -84,4 +84,28 @@ public:
     ApplicationLayer ();
 };
 
+enum LayerWindows {
+    infoLayer,
+    lastLayer,
+    currentValue,
+    head,
+    tail,
+};
+
+// IPLayer class
+class IPLayer {
+private:
+    // Data:
+    Interface inter;
+    ProcessIP process;
+    vector<Window> windows;
+    // Function:
+public:
+    // Data:
+    
+    // Function:
+    // Constructors
+    IPLayer ();
+};
+
 #endif /* interface_hpp */

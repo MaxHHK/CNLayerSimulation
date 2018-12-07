@@ -13,13 +13,11 @@
 #include "tool.cpp"
 
 int main(int argc, const char * argv[]) {
-//    ApplicationLayer sendEmail;
-//    string email = sendEmail.sendEmail();
-//    ApplicationLayer receiveEmail;
-//    getchar();
-//    sendEmail.writeEmail(email);
-    
-    cout << tools.hexToBin("ABCD");
+    ApplicationLayer sendEmail;
+    string email = sendEmail.sendEmail();
+    ApplicationLayer receiveEmail;
+    getchar();
+    sendEmail.writeEmail(email);
     
     return 0;
 }
