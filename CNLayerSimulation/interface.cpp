@@ -56,11 +56,25 @@ bool Interface:: printLine(char c, int length) {
     return true;
 }
 
-bool Interface:: printValist(va_list ap, const char *fmt) {
-    char buf[BUFFSIZE];
+bool Interface:: printValist(va_list ap, const char *fmt, int left = BUFFSIZE + 1) {
+    char buf[BUFFSIZE], *p;
     
     vsnprintf(buf, BUFSIZ, fmt, ap);
-    printf("%s", buf);
+    int length = static_cast<int>( strlen(buf) );
+    if (left < length) {
+        p = buf;
+        for (int inter = left; inter <= length + left; inter += left) {
+            char tmp = buf[inter];
+            buf[inter] = 0;
+            printf("%s", p);
+            moveDown(1);
+            moveLeft(left);
+            buf[inter] = tmp;
+            p += left;
+        }
+    } else {
+        printf("%s", buf);
+    }
     return true;
 }
 
@@ -128,7 +142,7 @@ bool Interface:: printAtSegment(Window seg, int line, const char *fmt, ...) {
     
     va_list ap;
     va_start(ap, fmt);
-    printValist(ap, fmt);
+    printValist(ap, fmt, left);
     va_end(ap);
     
     moveToCommand();

@@ -45,7 +45,7 @@ class Interface {
     bool resetCursor(void);
     bool moveToSegment(Window);
     bool printLine(char, int);
-    bool printValist(va_list ap, const char *fmt);
+    bool printValist(va_list ap, const char *fmt, int);
     bool printEdge(void);
 public:
     // Data:
