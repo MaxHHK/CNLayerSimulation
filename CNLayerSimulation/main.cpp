@@ -10,17 +10,34 @@
 
 #include "cnformat.h"
 #include "interface.cpp"
-#include "tool.cpp"
 
 int main(int argc, const char * argv[]) {
-//    ApplicationLayer sendEmail;
-//    string email = sendEmail.sendEmail();
-//    ApplicationLayer receiveEmail;
-//    getchar();
-//    sendEmail.writeEmail(email);
+    basisInformation.desPort = 12345;
+    basisInformation.srcPort = 12345;
+    basisInformation.srcIP[0] = "172";
+    basisInformation.srcIP[1] = "0";
+    basisInformation.srcIP[2] = "0";
+    basisInformation.srcIP[3] = "1";
+    basisInformation.desIP[0] = "172";
+    basisInformation.desIP[1] = "0";
+    basisInformation.desIP[2] = "0";
+    basisInformation.desIP[3] = "1";
+    
+    ApplicationLayer sendEmail;
+    string email = sendEmail.sendEmail();
+    string dataFromApplication = strToHex(email);
+    
+    LayerInterpret tcp(TCP);
+    tcp.interpret(email);
     
     LayerInterpret ip(IP);
-    ip.interpret("hhaha");
+    ip.interpret(tcp.encapsulatedData.head + tcp.encapsulatedData.dataOfUpLayer);
+    
+    email.clear();
+    email = hexToStr(dataFromApplication);
+    ApplicationLayer receiveEmail;
+    sendEmail.writeEmail(email);
+    
     return 0;
 }
 

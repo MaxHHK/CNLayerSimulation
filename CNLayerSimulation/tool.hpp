@@ -10,21 +10,15 @@
 
 #include "cnformat.h"
 
-// Tools class
-class Tools {
-private:
-    // Data:
-    
-    // Function:
-public:
-    // Data:
-    // Function:
+using namespace std;
+
+namespace Tools {
     static string hexToBin(string hex);
     static string binToHex(string bin);
     static string strToHex(string str);
     static string hexToStr(string hex);
-};
-
-Tools tools;
+    static string transfer(int x, int length);
+    static string bmoc_calculation(string a, string b);
+}
 
 #endif /* tool_hpp */

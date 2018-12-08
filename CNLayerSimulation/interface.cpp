@@ -63,6 +63,7 @@ bool Interface:: printValist(va_list ap, const char *fmt, int left = BUFFSIZE + 
     int length = static_cast<int>( strlen(buf) );
     if (left < length) {
         p = buf;
+        int times = 0;
         for (int inter = left; inter <= length + left; inter += left) {
             char tmp = buf[inter];
             buf[inter] = 0;
@@ -71,6 +72,7 @@ bool Interface:: printValist(va_list ap, const char *fmt, int left = BUFFSIZE + 
             moveLeft(left);
             buf[inter] = tmp;
             p += left;
+            times++;
         }
     } else {
         printf("%s", buf);
@@ -189,7 +191,7 @@ string Interface:: getLine(Window seg) {
     }
     while((*(t++) = getchar()) != '\n') { }
     *(t-1) = 0;
-    if (strcpy(input, "exit") == 0) {
+    if (strcmp(input, "exit") == 0) {
         exit(0);
     }
     return input;
@@ -210,7 +212,7 @@ string ApplicationLayer:: sendEmail(void) {
     string data;
     for (int i = 0; i < 4; i++) {
         data += inter.getLine(windows[i]);
-        data.push_back(5);
+        data.push_back(40);
     }
     inter.moveToCommand();
     return data;
@@ -221,7 +223,7 @@ bool ApplicationLayer:: writeEmail(string data) {
     vector<string> datas;
     int head = 0, i;
     for (i = 0; i < data.size(); i++) {
-        if (data[i] == 5) {
+        if (data[i] == 40) {
             string tmp = data.substr(head, i - head);
             datas.push_back(tmp);
             head = i + 1;
@@ -245,7 +247,7 @@ ApplicationLayer:: ApplicationLayer () {
 static const int WIDTH_HEIGHT[4][2] = {
     0, 0,
     80, 4,
-    80, 4,
+    64, 5,
     0, 0
 };
 
@@ -266,6 +268,13 @@ bool LayerInterpret:: runIP() {
     return true;
 }
 
+bool LayerInterpret:: runTCP() {
+    ProcessTCP tcp;
+    encapsulatedData = tcp.encapsulate(dataFromLastLayer);
+    explainItems = tcp.interpret(encapsulatedData);
+    return true;
+    
+}
 
 bool LayerInterpret:: interpret(string lastLayer) {
     dataFromLastLayer = lastLayer;
@@ -273,7 +282,8 @@ bool LayerInterpret:: interpret(string lastLayer) {
         case IP:
             runIP();
             break;
-            
+        case TCP:
+            runTCP();
         default:
             break;
     }
@@ -295,7 +305,8 @@ bool LayerInterpret:: interpret(string lastLayer) {
 
 LayerInterpret:: LayerInterpret(Layer l): thisLayer(l) {
     trueWidth = WIDTH_HEIGHT[thisLayer][0];
-    trueHeight = WIDTH_HEIGHT[thisLayer][1];;
+    trueHeight = WIDTH_HEIGHT[thisLayer][1];
+    int leftOffset = 110 - FakeDataWidth - trueWidth - 4;
     Window tmp1(InfoBegin, LeftBegin, InfoWidth, InfoLines);
     windows.push_back(tmp1);
     
@@ -305,10 +316,10 @@ LayerInterpret:: LayerInterpret(Layer l): thisLayer(l) {
     Window tmp3(InfoBegin + InfoLines + HeightOffset + trueHeight, LeftBegin, InfoWidth * 2, WholeDataLines);
     windows.push_back(tmp3);
     
-    Window tmp4(InfoBegin + InfoLines + HeightOffset, trueWidth + LeftBegin * 3, FakeDataWidth, trueHeight);
+    Window tmp4(InfoBegin + InfoLines + HeightOffset, trueWidth + leftOffset + 2, FakeDataWidth, trueHeight);
     windows.push_back(tmp4);
     
-    Window tmp5(InfoBegin + InfoLines + HeightOffset, LeftBegin * 3-2, trueWidth + 2, trueHeight);
+    Window tmp5(InfoBegin + InfoLines + HeightOffset, leftOffset, trueWidth + 2, trueHeight);
     windows.push_back(tmp5);
     
     // print lastLayerWindow to fakeDataWindow

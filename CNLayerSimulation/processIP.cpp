@@ -5,26 +5,6 @@
 
 #include "processIP.hpp"
 
-
-string transfer(int x,int length)
-{
-    string result(length, '0');
-    int index = length-1;
-    int r;
-    while(x)
-    {
-        r=x%2;
-        if(r == 0){
-            result[index] = '0';
-        }else{
-            result[index] = '1';
-        }
-        index -= 1;
-        x/=2;
-    }
-    return result;
-}
-
 string HeadExamination(string head){
     string result(16, '0');
     vector <string> bytes;
@@ -53,27 +33,6 @@ string HeadExamination(string head){
         }else{
             result[i] = '0';
         }
-    }
-    return result;
-}
-
-string bmoc_calculation(string A,string B){
-    string result(16, '0');
-    int cx = 0;
-    int a,b,sum;
-    int index = 15;
-    while(index > -1){
-        a = A[index] - '0';
-        b = B[index] - '0';
-        sum = a+b+cx;
-        cx = sum/2;
-        sum = sum%2;
-        if(sum){
-            result[index] = '1';
-        }else{
-            result[index] = '0';
-        }
-        index -= 1;
     }
     return result;
 }

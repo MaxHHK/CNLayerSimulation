@@ -12,6 +12,11 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <cstdlib>
+
+#include "tool.cpp"
+
+using namespace Tools;
 
 using namespace std;
 

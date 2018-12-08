@@ -17,6 +17,7 @@
 #include "processTCP.cpp"
 #include "processIP.cpp"
 #include "processMac.cpp"
+#include "_socket_.cpp"
 
 struct Window {
     bool withNum;
@@ -108,7 +109,6 @@ private:
     int trueWidth;
     int trueHeight;
     string dataFromLastLayer;
-    Data encapsulatedData;
     vector<DataFormat> explainItems;
     Interface inter;
     ProcessIP process;
@@ -116,9 +116,10 @@ private:
     Layer thisLayer;
     // Function:
     bool runIP();
+    bool runTCP();
 public:
     // Data:
-    
+    Data encapsulatedData;
     // Function:
     bool interpret(string);
     // Constructors

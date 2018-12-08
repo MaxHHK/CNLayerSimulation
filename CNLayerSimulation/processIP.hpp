@@ -33,6 +33,4 @@ public:
     vector <DataFormat> interpret(const Data);
 };
 
-string transfer(string x,int length);
-string bmoc_calculation(string a,string b);
 #endif /* processIP_hpp */
