@@ -43,7 +43,7 @@ private:
     void acceptSocket();
     void sendMessageTo(std::string message);
     void loopSendAndRecviveMessage();
-    string reveiveMessageFrom(bool showMsg=false);
+    string reveiveMessageFrom(bool showMsg=true);
     void closeSocket(int socketData);
 };
 

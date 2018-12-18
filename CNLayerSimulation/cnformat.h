@@ -29,6 +29,7 @@ enum Layer {
     IP,
     TCP,
     Application,
+    Others
 };
 
 struct Basic{

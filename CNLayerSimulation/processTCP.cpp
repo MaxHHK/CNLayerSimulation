@@ -75,13 +75,8 @@ Data ProcessTCP::encapsulate(string fromUpLayer) {
     result.dataOfUpLayer = fromUpLayer;
     result.tail = "";
     
-//    port(int) to string
-//    char buf[5];
-//    sprintf(buf, "%d", basisInformation.srcPort);
-//    port_src = buf;//源端口
-//    sprintf(buf, "%d", basisInformation.desPort);
-//    port_des = buf; //目的端口
-    
+    port_src = transfer(basisInformation.srcPort, 16);//源端口
+    port_des = transfer(basisInformation.desPort, 16); //目的端口
     serial_number = transfer(0,64) ;//序号
     confirm_number =transfer(0,64) ;//确认号
     data_offset = transfer(5,4);//数据偏移

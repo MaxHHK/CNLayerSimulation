@@ -30,6 +30,16 @@ inline bool Interface:: moveRight(int x) {
     return true;
 }
 
+inline bool Interface:: setFontColor(int color) {
+    printf("\033[%dm",(color));
+    return true;
+}
+
+inline bool Interface:: setBackColor(int color) {
+     printf("\033[%dm",(color));
+    return true;
+}
+
 inline bool Interface:: resetCursor() {
     printf("\033[H");
     return true;
@@ -165,6 +175,21 @@ bool Interface:: printAtSegment(Window seg, int x, int y, const char *fmt, ...) 
     return true;
 }
 
+bool Interface:: printAtSegment(Window seg, int x, int y, int color, const char *fmt, ...) {
+    setBackColor(color);
+    moveAt(seg, x, y);
+    
+    va_list ap;
+    va_start(ap, fmt);
+    printValist(ap, fmt);
+    va_end(ap);
+    
+    moveToCommand();
+    setBackColor(FRONT_WHITE);
+    
+    return true;
+}
+
 bool Interface:: moveToCommand(void) {
     resetCursor();
     moveDown(MAX_HEIGHT);
@@ -180,7 +205,7 @@ bool Interface:: moveToCommand(void) {
     return true;
 }
 
-string Interface:: getLine(Window seg) {
+string Interface:: getLine(Window seg, bool isPassWord = false) {
     char input[BUFFSIZE], *t = input;
     if (seg.title == edge.title) {
         moveToCommand();
@@ -189,8 +214,17 @@ string Interface:: getLine(Window seg) {
         moveDown(1);
         moveRight(1);
     }
-    while((*(t++) = getchar()) != '\n') { }
+    if (isPassWord) {
+        system("stty -echo");
+    }
+    
+    while((*(t++) = getchar()) != '\n') {}
     *(t-1) = 0;
+    
+    if (isPassWord) {
+        system("stty echo");
+    }
+    
     if (strcmp(input, "exit") == 0) {
         exit(0);
     }
@@ -203,41 +237,42 @@ Interface:: Interface() {
     moveToCommand();
 }
 
-const string ApplicationLayer:: Titles[4] = { "Subject", "To", "From", "Text"};
-const int ApplicationLayer:: Places[4] = {3, 9, 14, 20};
-const int ApplicationLayer:: Lines[4] = {5, 4, 4, 10};
+const string ApplicationLayer:: Titles[5] = {"To", "Cc", "Subject", "From", "Text"};
+const int ApplicationLayer:: Places[5] = {3, 8, 13, 18, 23};
+const int ApplicationLayer:: Lines[5] = {4, 4, 4, 4, 10};
 
 
 string ApplicationLayer:: sendEmail(void) {
     string data;
-    for (int i = 0; i < 4; i++) {
-        data += inter.getLine(windows[i]);
+    for (int i = 0; i < 5; i++) {
+        data += (Titles[i] + ":" + inter.getLine(windows[i]));
         data.push_back(40);
     }
     inter.moveToCommand();
     return data;
 }
 
-
 bool ApplicationLayer:: writeEmail(string data) {
     vector<string> datas;
-    int head = 0, i;
+    int head = 0, i, times = 0;
     for (i = 0; i < data.size(); i++) {
         if (data[i] == 40) {
             string tmp = data.substr(head, i - head);
+            tmp = tmp.substr(Titles[times].size() + 1, tmp.size() - Titles[times].size() + 1);
+            times++;
             datas.push_back(tmp);
             head = i + 1;
         }
     }
     datas.push_back(data.substr(head, i - head));
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         inter.printAtSegment(windows[i], 1, datas[i].data());
     }
     return true;
 }
 
 ApplicationLayer:: ApplicationLayer () {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         Window tmp(Places[i], LEFT_OFFSET, WIDTH, Lines[i], Titles[i]);
         windows.push_back(tmp);
         inter.printBoard(tmp);
@@ -245,61 +280,151 @@ ApplicationLayer:: ApplicationLayer () {
 }
 
 static const int WIDTH_HEIGHT[4][2] = {
-    0, 0,
+    48, 5,
     80, 4,
     64, 5,
     0, 0
 };
 
-string TITLES[6] = {
+const string LayerInterpret:: TITLES[6] = {
     "Explain Window",
-    "Last Layer Data Window",
-    "Constructing ... ",
+    "Up Layer Data Window",
+    "Down Layer Data Window",
     "--|Data|",
     "Head Window",
-    "Tail Window",
+    "Tail"
 };
 
 
-bool LayerInterpret:: runIP() {
+const string LayerInterpret:: Infos[5] = {
+    "Datalink layer",
+    "IP layer",
+    "Transport layer",
+    "Application"
+    "Server"
+};
+
+
+bool LayerInterpret:: runIP(bool isFromUP = true) {
     ProcessIP ip;
-    encapsulatedData = ip.encapsulate(dataFromLastLayer);
+    if (isFromUP) {
+        encapsulatedData = ip.encapsulate(dataFromUpLayer);
+    } else {
+        encapsulatedData = ip.disassemble(dataFromDownLayer);
+    }
     explainItems = ip.interpret(encapsulatedData);
     return true;
 }
 
-bool LayerInterpret:: runTCP() {
+bool LayerInterpret:: runTCP(bool isFromUP = true) {
     ProcessTCP tcp;
-    encapsulatedData = tcp.encapsulate(dataFromLastLayer);
+    if (isFromUP) {
+        encapsulatedData = tcp.encapsulate(dataFromUpLayer);
+    } else {
+        encapsulatedData = tcp.disassemble(dataFromDownLayer);
+    }
+    //encapsulatedData = tcp.encapsulate(dataFromUpLayer);
     explainItems = tcp.interpret(encapsulatedData);
     return true;
-    
 }
 
-bool LayerInterpret:: interpret(string lastLayer) {
-    dataFromLastLayer = lastLayer;
+bool LayerInterpret:: runMac(bool isFromUP = true) {
+    ProcessMac mac;
+    if (isFromUP) {
+        encapsulatedData = mac.encapsulate(dataFromUpLayer);
+    } else {
+        encapsulatedData = mac.disassemble(dataFromDownLayer);
+    }
+    //encapsulatedData = mac.encapsulate(dataFromUpLayer);
+    explainItems = mac.interpret(encapsulatedData);
+    return true;
+}
+
+
+bool LayerInterpret:: stop(int interval = 0) {
+    string cmd;
+    if (interval == 0) {
+        cmd = inter.getLine(inter.edge);
+        if (cmd == ".") {
+            return false;
+        }
+    } else {
+        fflush(stdout);
+        sleep(interval);
+    }
+    return true;
+}
+
+bool LayerInterpret:: showTransmit(Layer from, Layer to, string data) {
+    Window trans(10, 40, 40, 10, false);
+    inter.printBoard(trans);
+    
+    inter.printAtSegment(trans, 1, ("Receive data from "+Infos[from]).data());
+    inter.printAtSegment(trans, 2, ("Pass to "+Infos[to]).data());
+    inter.printAtSegment(trans, 3, ("Received Data: " + data).data());
+    
+    return true;
+}
+
+bool LayerInterpret:: interpret(string lastLayer, int interval = 0, bool isFroTopToDown = true) {
+    if (interval < 0) {
+        return false;
+    }
+    if (isFroTopToDown) {
+        dataFromUpLayer = lastLayer;
+        inter.printAtSegment(windows[lastLayerWindow], 1, lastLayer.data());
+    } else {
+        dataFromDownLayer = lastLayer;
+    }
     switch (thisLayer) {
+        case Mac:
+            runMac(isFroTopToDown);
+            break;
         case IP:
-            runIP();
+            runIP(isFroTopToDown);
             break;
         case TCP:
-            runTCP();
+            runTCP(isFroTopToDown);
         default:
             break;
     }
-    string cmd;
-    inter.printAtSegment(windows[lastLayerWindow], 1, dataFromLastLayer.data());
-    for (vector<DataFormat>::iterator it = explainItems.begin(); it < explainItems.end(); it++) {
-        cmd = inter.getLine(inter.edge);
-        if (cmd == ".") {
-            break;
+    if (stop()) {
+        if (!isFroTopToDown) {
+            inter.printAtSegment(windows[headWindow], 1, hexToBin(encapsulatedData.head).data());
+            inter.printAtSegment(windows[currentValueWindow], 1, (encapsulatedData.head+encapsulatedData.dataOfUpLayer+encapsulatedData.tail).data());
         }
-        int x = it->indexOfField / trueWidth + 1;
-        int y = it->indexOfField % trueWidth + 1;
-        inter.printAtSegment(windows[infoWindow], 1, it->explainOfField.data());
-        inter.printAtSegment(windows[headWindow], x, y, it->valueOfField.data());
+        int lastX = 1, lastY = 1;
+        vector<DataFormat>::iterator itemsEnd = thisLayer == Mac ? explainItems.end() -1 : explainItems.end();
+        for (vector<DataFormat>::iterator it = explainItems.begin(); it < itemsEnd; it++) {
+            int x = it->indexOfField / trueWidth + 1;
+            int y = it->indexOfField % trueWidth + 1;
+            inter.printBoard(windows[infoWindow]);
+            inter.printAtSegment(windows[infoWindow], 1, it->explainOfField.data());
+            inter.printAtSegment(windows[headWindow], x, y, inter.FRONT_BLUE, it->valueOfField.data());
+            if (it != explainItems.begin()) {
+                inter.printAtSegment(windows[headWindow], lastX, lastY, (it-1)->valueOfField.data());
+            }
+            if (stop(interval) == false) {
+                break;
+            }
+            lastX = x;
+            lastY = y;
+        }
+        inter.printAtSegment(windows[headWindow], lastX, lastY, (itemsEnd-1)->valueOfField.data());
+        if (thisLayer == Mac) {
+            inter.printAtSegment(windows[tailWindow], 1, itemsEnd->valueOfField.data());
+        }
     }
-    inter.printAtSegment(windows[currentValueWindow], 1, (encapsulatedData.head+encapsulatedData.dataOfUpLayer+encapsulatedData.tail).data());
+    if (isFroTopToDown) {
+        inter.printAtSegment(windows[headWindow], 1, hexToBin(encapsulatedData.head).data());
+        inter.printAtSegment(windows[currentValueWindow], 1, (encapsulatedData.head+encapsulatedData.dataOfUpLayer+encapsulatedData.tail).data());
+        inter.printBoard(windows[lastLayerWindow]);
+    } else {
+        inter.printBoard(windows[headWindow]);
+        inter.printAtSegment(windows[lastLayerWindow], 1, lastLayer.data());
+        inter.printBoard(windows[currentValueWindow]);
+    }
+    stop(interval);
     return true;
 }
 
@@ -322,17 +447,142 @@ LayerInterpret:: LayerInterpret(Layer l): thisLayer(l) {
     Window tmp5(InfoBegin + InfoLines + HeightOffset, leftOffset, trueWidth + 2, trueHeight);
     windows.push_back(tmp5);
     
+    if (thisLayer == Mac) {
+        Window tail(InfoBegin + InfoLines + HeightOffset, trueWidth + leftOffset + FakeDataWidth + 4, WidthOfTail, trueHeight);
+        windows.push_back(tail);
+    }
+    
     // print lastLayerWindow to fakeDataWindow
     for (int i = 0; i < 4; i++) {
-        inter.printAtSegment(inter.edge, 21 + i, 74 + i * 5, "\\");
-        inter.printAtSegment(inter.edge, 21 + i, 135 - i * 8, "/");
+        inter.printAtSegment(inter.edge, InfoLines + 3 + i, 74 + i * 5, "\\");
+        inter.printAtSegment(inter.edge, InfoLines + 3 + i, 135 - i * 8, "/");
     }
     
     // print board
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < windows.size(); i++) {
         windows[i].title = TITLES[i];
         inter.printBoard(windows[i]);
     }
     
     inter.printAtSegment(windows[fakeDataWindow], 1, "   D A T A");
+}
+
+// shell class
+
+bool Shell:: welcomeWindow(void) {
+    Window userWin(10, 60, 20, 4, false, "User");
+    Window passWin(14, 60, 20, 4, false, "Password");
+    Window typeWin(16, 60, 20, 4, false, "You are ?");
+    
+    inter.printBoard(userWin);
+    inter.printBoard(passWin);
+    inter.printBoard(typeWin);
+    string username = inter.getLine(userWin);
+    string password = inter.getLine(passWin, true);
+    string typeString = inter.getLine(typeWin);
+    
+    if (typeString == "Server") {
+        type = Server;
+    } else {
+        type = Client;
+    }
+    
+    inter.printBoard(inter.edge);
+    inter.printAtSegment(inter.edge, 10, 50, inter.FRONT_RED, "Log in successful!");
+    
+    return true;
+}
+
+bool Shell:: initialInfo(void) {
+    basisInformation.desPort = 12345;
+    basisInformation.srcPort = 12345;
+    basisInformation.srcIP[0] = "172";
+    basisInformation.srcIP[1] = "16";
+    basisInformation.srcIP[2] = "100";
+    basisInformation.srcIP[3] = "23";
+    basisInformation.desIP[0] = "172";
+    basisInformation.desIP[1] = "16";
+    basisInformation.desIP[2] = "100";
+    basisInformation.desIP[3] = "23";
+    for (int i = 0; i < 6; i++) {
+        basisInformation.srcMac[i].push_back('0' + rand() % 10);
+        basisInformation.desMac[i].push_back('0' + rand() % 10);
+        basisInformation.srcMac[i].push_back('0' + rand() % 10);
+        basisInformation.desMac[i].push_back('0' + rand() % 10);
+    }
+    inter.moveToCommand();
+    cout << "automate? ";
+    cin >> interval;
+    return true;
+}
+
+bool Shell:: runServer(string msg = "") {
+    EmailSocket server(type);
+    string msgFromPhysics, email;
+    
+    inter.printBoard(inter.edge);
+    inter.moveToCommand();
+    
+    fflush(stdout);
+    
+    
+    // test
+    
+    LayerInterpret mac(Mac);
+    mac.interpret(msg, 0, false);
+    
+    LayerInterpret ip(IP);
+    ip.interpret(mac.encapsulatedData.dataOfUpLayer, 0, false);
+    
+    LayerInterpret tcp(TCP);
+    tcp.interpret(ip.encapsulatedData.dataOfUpLayer, 0, false);
+    
+    // test
+    
+    
+    
+//
+//    msgFromPhysics = server.run();
+//    email = hexToStr(msgFromPhysics);
+//
+    ApplicationLayer receiveEmail;
+    receiveEmail.writeEmail(hexToStr(tcp.encapsulatedData.dataOfUpLayer));
+    
+    return true;
+}
+
+bool Shell:: runClient(void) {
+    EmailSocket client(type);
+    string cmd, email, dataFromApplication;
+    
+    cmd = inter.getLine(inter.edge);
+    
+    ApplicationLayer emailClient;
+    email = emailClient.sendEmail();
+    dataFromApplication = strToHex(email);
+    
+
+    LayerInterpret tcp(TCP);
+    tcp.interpret(dataFromApplication);
+
+    LayerInterpret ip(IP);
+    ip.interpret(tcp.encapsulatedData.head + tcp.encapsulatedData.dataOfUpLayer, interval);
+
+    LayerInterpret mac(Mac);
+    mac.interpret(ip.encapsulatedData.head + ip.encapsulatedData.dataOfUpLayer);
+    
+    //test
+    runServer(mac.encapsulatedData.head + mac.encapsulatedData.dataOfUpLayer + mac.encapsulatedData.tail);
+    
+    client.run(dataFromApplication);
+    
+    return true;
+}
+
+bool Shell:: startShell() {
+    if (type == Server) {
+        return runServer();
+    } else {
+        return runClient();
+    }
 }
