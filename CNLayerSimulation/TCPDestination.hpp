@@ -21,7 +21,6 @@ private:
     // Data:
     TCPAutomation currentState;
     Interface inter;
-    TCPPackage tcpToStr(string str);
     // Function:
 public:
     // Data:

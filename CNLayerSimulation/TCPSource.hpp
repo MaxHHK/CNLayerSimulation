@@ -10,6 +10,7 @@
 #define TCPSource_hpp
 
 #include "cnformat.h"
+#include <fcntl.h>
 
 #ifdef _socket_
     #include "_socket_.cpp"
@@ -20,21 +21,32 @@ class Source {
 private:
     // Data:
     TCPAutomation currentState;
+    int fileOffset;
     int sequence;
-    int ack;
+    int ack, window, length;
+    int fileLength;
+    bool Flags[4];
     Interface inter;
+    static const string StateInfos[4];
     // Function:
-public:
+    bool mySleep(int ms);
+    bool setFlags(int, int, int, int);
+    string makeTcp(int win, int len);
+    bool dealTcp(string tcp);
+    TCPPackage strToTcp(char *str);
+    string tcpToStr(TCPPackage msg);
+    bool sendMsg(string msg);
+    string recvMsg(void);
+    bool sendFile(string filePath);
+    public:
     // Data:
     
     // Function:
     bool startSend(string filePath);
     bool connect();
+    bool disconnect();
     // Constructors
-    Source () {
-        sequence = 1000;
-        ack = 1000;
-    };
+    Source ();
 };
 
 #endif /* TCPSource_hpp */

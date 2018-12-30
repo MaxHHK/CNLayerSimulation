@@ -48,6 +48,7 @@
 		50F9F4A821D8591A00AC1B23 /* myerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myerror.h; sourceTree = "<group>"; };
 		50F9F4A921D85A2800AC1B23 /* Shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cpp; sourceTree = "<group>"; };
 		50F9F4AA21D85A2800AC1B23 /* Shell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shell.hpp; sourceTree = "<group>"; };
+		50F9F4AB21D8608A00AC1B23 /* file */ = {isa = PBXFileReference; lastKnownFileType = text; path = file; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +89,7 @@
 				50F9F4A521D8548F00AC1B23 /* TCPDestination.cpp */,
 				50F9F4A621D8548F00AC1B23 /* TCPDestination.hpp */,
 				504561ED21BA16AD00BB1D5D /* _socket_.cpp */,
+				50F9F4AB21D8608A00AC1B23 /* file */,
 				504561EE21BA16AD00BB1D5D /* _socket_.hpp */,
 				506CD1E121B7E95B00438F79 /* interface.cpp */,
 				50F9F4A921D85A2800AC1B23 /* Shell.cpp */,

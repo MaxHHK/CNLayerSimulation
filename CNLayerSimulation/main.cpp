@@ -9,11 +9,27 @@
 #include <iostream>
 
 #include "cnformat.h"
-#include "Shell.cpp"
+#include "TCPSource.cpp"
 
 int main(int argc, const char * argv[]) {
-    Shell shell;
-    shell.startShell();
+    //Shell shell;
+    //shell.startShell();
+    
+    
+    basisInformation.desPort = 12345;
+    basisInformation.srcPort = 12345;
+    basisInformation.srcIP[0] = "172";
+    basisInformation.srcIP[1] = "20";
+    basisInformation.srcIP[2] = "10";
+    basisInformation.srcIP[3] = "7";
+    basisInformation.desIP[0] = "172";
+    basisInformation.desIP[1] = "20";
+    basisInformation.desIP[2] = "10";
+    basisInformation.desIP[3] = "2";
+    
+    Source source;
+    source.startSend("file");
+    
     return 0;
 }
 

@@ -5,6 +5,7 @@
 
 #include "_socket_.hpp"
 #include <iostream>
+#include <ctime>
 
 SelfSocket::SelfSocket(SocketType type, string desIP[], int desPort, int srcPort){
     int i;
@@ -56,10 +57,10 @@ void SelfSocket::connectEmailServer() {
 }
 
 void SelfSocket::bindSocket() {
-//    if (bind(listen_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
-//        perror("bind failed\n");
-//        exit(0);
-//    }
+    if (bind(listen_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
+        perror("bind failed\n");
+        exit(0);
+    }
 }
 
 void SelfSocket::loopSendAndRecviveMessage() {
@@ -128,7 +129,7 @@ string SelfSocket::run(string hexMessage) {
         listenSocket(1);
         acceptSocket();
         // server.sendMessageTo(test);
-        result = reveiveMessageFrom(true);
+        result = reveiveMessageFrom(false);
     }
     return result;
 }

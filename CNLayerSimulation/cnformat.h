@@ -81,14 +81,18 @@ enum TCPAutomation {
     CLOSED, LISTEN, SYN_RCVD, SYN_SENT, ESTABLISHED, FIN_WAIT_1, FIN_WAIT_2, CLOSING, TIME_WAIT, CLOSE_WAIT, LAST_ACK,
 };
 
-struct TCPPackage {
-    char flags[10];
-    char sequence[10];
-    char ask[10];
-    int headLength;
-    char checksum[17];
+enum TCPStruct {
+    FLAGS,
+    SEQUENCE,
+    ACKS,
+    HEADLENGTH,
+    CHECKSUM1,
+    CHECKSUM2,
 };
 
+struct TCPPackage {
+    char flags[6][10];
+};
 
 #endif /* cnformat_h */
 
