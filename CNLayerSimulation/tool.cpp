@@ -187,3 +187,10 @@ string Tools:: bmoc_calculation(string A,string B) {
     }
     return result;
 }
+
+int Tools::readFile(char* path, char* buff, int start, int length) {
+    int fd = open(path, O_RDONLY);
+    lseek(fd, start, SEEK_CUR);
+    return static_cast<int>(read(fd, buff, length));
+}
+

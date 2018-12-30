@@ -15,6 +15,8 @@
 #include <cstdlib>
 
 #include "tool.cpp"
+#include "Window.cpp"
+#include "_socket_.cpp"
 
 using namespace Tools;
 
@@ -25,6 +27,7 @@ const int NumOfMac = 6;
 const int TTL = 255;
 
 enum Layer {
+    Physics,
     Mac,
     IP,
     TCP,
@@ -62,6 +65,30 @@ struct Data {
     string dataOfUpLayer;
     string tail;
 };
+
+// TCP stream structure
+enum TCPFlags {
+    URG,
+    ACK,
+    PSH,
+    RST,
+    SYN,
+    FIN,
+    IsTrue,
+};
+
+enum TCPAutomation {
+    CLOSED, LISTEN, SYN_RCVD, SYN_SENT, ESTABLISHED, FIN_WAIT_1, FIN_WAIT_2, CLOSING, TIME_WAIT, CLOSE_WAIT, LAST_ACK,
+};
+
+struct TCPPackage {
+    char flags[10];
+    char sequence[10];
+    char ask[10];
+    int headLength;
+    char checksum[17];
+};
+
 
 #endif /* cnformat_h */
 

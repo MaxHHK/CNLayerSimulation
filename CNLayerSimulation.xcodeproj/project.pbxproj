@@ -38,6 +38,16 @@
 		506CD1E121B7E95B00438F79 /* interface.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interface.cpp; sourceTree = "<group>"; };
 		506CD1E421B9829000438F79 /* tool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tool.cpp; sourceTree = "<group>"; };
 		506CD1E521B9829000438F79 /* tool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tool.hpp; sourceTree = "<group>"; };
+		50F9F4A121D8531D00AC1B23 /* TCPSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCPSource.cpp; sourceTree = "<group>"; };
+		50F9F4A221D8531D00AC1B23 /* TCPSource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TCPSource.hpp; sourceTree = "<group>"; };
+		50F9F4A321D8537A00AC1B23 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
+		50F9F4A421D8537A00AC1B23 /* Window.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Window.hpp; sourceTree = "<group>"; };
+		50F9F4A521D8548F00AC1B23 /* TCPDestination.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCPDestination.cpp; sourceTree = "<group>"; };
+		50F9F4A621D8548F00AC1B23 /* TCPDestination.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TCPDestination.hpp; sourceTree = "<group>"; };
+		50F9F4A721D858CF00AC1B23 /* apue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = apue.h; sourceTree = "<group>"; };
+		50F9F4A821D8591A00AC1B23 /* myerror.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myerror.h; sourceTree = "<group>"; };
+		50F9F4A921D85A2800AC1B23 /* Shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shell.cpp; sourceTree = "<group>"; };
+		50F9F4AA21D85A2800AC1B23 /* Shell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shell.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +80,20 @@
 		506CD1D021B7E93900438F79 /* CNLayerSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				50F9F4A821D8591A00AC1B23 /* myerror.h */,
+				50F9F4A721D858CF00AC1B23 /* apue.h */,
 				506CD1DE21B7E95B00438F79 /* cnformat.h */,
+				50F9F4A121D8531D00AC1B23 /* TCPSource.cpp */,
+				50F9F4A221D8531D00AC1B23 /* TCPSource.hpp */,
+				50F9F4A521D8548F00AC1B23 /* TCPDestination.cpp */,
+				50F9F4A621D8548F00AC1B23 /* TCPDestination.hpp */,
 				504561ED21BA16AD00BB1D5D /* _socket_.cpp */,
 				504561EE21BA16AD00BB1D5D /* _socket_.hpp */,
 				506CD1E121B7E95B00438F79 /* interface.cpp */,
+				50F9F4A921D85A2800AC1B23 /* Shell.cpp */,
+				50F9F4AA21D85A2800AC1B23 /* Shell.hpp */,
+				50F9F4A321D8537A00AC1B23 /* Window.cpp */,
+				50F9F4A421D8537A00AC1B23 /* Window.hpp */,
 				506CD1DC21B7E95A00438F79 /* interface.hpp */,
 				506CD1E621B9855400438F79 /* process */,
 				506CD1D121B7E93900438F79 /* main.cpp */,

@@ -6,7 +6,6 @@
 #ifndef _socket__hpp
 #define _socket__hpp
 
-#include "cnformat.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,7 +24,7 @@ enum SocketType {
     Client
 };
 
-class EmailSocket {
+class SelfSocket {
 public:
     SocketType typeOfSocket;
     int client_sock;
@@ -34,8 +33,8 @@ public:
     int hostnum;
     int buffSize;
     string run(string message="");
-    EmailSocket(SocketType type);
-    ~EmailSocket();
+    SelfSocket(SocketType type, string desIP[], int desPort, int srcPort);
+    ~SelfSocket();
 private:
     void connectEmailServer();
     void bindSocket();

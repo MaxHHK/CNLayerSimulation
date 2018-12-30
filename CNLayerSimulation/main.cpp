@@ -9,10 +9,9 @@
 #include <iostream>
 
 #include "cnformat.h"
-#include "interface.cpp"
+#include "Shell.cpp"
 
 int main(int argc, const char * argv[]) {
-    
     Shell shell;
     shell.startShell();
     return 0;

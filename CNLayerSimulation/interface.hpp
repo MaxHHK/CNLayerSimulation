@@ -17,71 +17,6 @@
 #include "processTCP.cpp"
 #include "processIP.cpp"
 #include "processMac.cpp"
-#include "_socket_.cpp"
-
-struct Window {
-    bool withNum;
-    int x, y;
-    int width, height;
-    string title;
-    Window() {}
-    Window(int x, int y, int w, int h, string head = ""): x(x), y(y), width(w), height(h), title(head) {
-        withNum = false;
-        head.clear();
-    }
-    Window(int x, int y, int w, int h, bool with, string head = ""): x(x), y(y), width(w), height(h), withNum(with), title(head) {}
-};
-
-// Interface class
-class Interface {
-    // data
-    static const int BUFFSIZE = 1024;
-    static const int MAX_WIDTH  = 150;
-    static const int MAX_HEIGHT = 38;
-    // move cursor up, down left and right
-    bool moveUp(int);
-    bool moveDown(int);
-    bool moveLeft(int);
-    bool moveRight(int);
-    bool resetCursor(void);
-    bool moveToSegment(Window);
-    bool printLine(char, int);
-    bool printValist(va_list ap, const char *fmt, int);
-    bool printEdge(void);
-public:
-    // Data:
-    static const Window edge;
-    // font color
-    static const int  FRONT_BLACK = 30;
-    static const int  FRONT_RED = 31;
-    static const int  FRONT_GREEN = 32;
-    static const int  FRONT_YELLOW = 33;
-    static const int  FRONT_BLUE = 34;
-    static const int  FRONT_PURPLE = 35;
-    static const int  FRONT_DEEP_GREEN = 36;
-    static const int  FRONT_WHITE = 37;
-    // background color
-    static const int  BACKGROUND_BLACK = 40;
-    static const int  BACKGROUND_RED = 41;
-    static const int  BACKGROUND_GREEN = 42;
-    static const int  BACKGROUND_YELLOW = 43;
-    static const int  BACKGROUND_BLUE = 44;
-    static const int  BACKGROUND_PURPLE = 45;
-    static const int  BACKGROUND_DEEP_GREEN = 46;
-    static const int  BACKGROUND_WHITE = 47;
-    // Function:
-    bool setFontColor(int color);
-    bool setBackColor(int color);
-    bool clearSegment(Window);
-    bool printBoard(Window);
-    bool printAtSegment(Window, int, const char *, ...);
-    bool printAtSegment(Window, int, int, const char *, ...);
-    bool printAtSegment(Window, int, int, int, const char *, ...);
-    bool moveToCommand(void);
-    bool moveAt(Window, int, int);
-    string getLine(Window, bool);
-    Interface ();
-};
 
 // ApplicationLayer class
 class ApplicationLayer {
@@ -129,7 +64,7 @@ private:
     static const int WholeDataLines = 8;
     static const int WidthOfTail = 20;
     static const string TITLES[6];
-    static const string Infos[5];
+    static const string Infos[6];
     int trueWidth;
     int trueHeight;
     string dataFromUpLayer;
@@ -139,12 +74,13 @@ private:
     ProcessIP process;
     vector<Window> windows;
     Layer thisLayer;
+    Layer nextLayer;
     // Function:
     bool runIP(bool);
     bool runTCP(bool);
     bool runMac(bool);
     bool stop(int);
-    bool showTransmit(Layer, Layer, string);
+    bool showTransmit(void);
 public:
     // Data:
     Data encapsulatedData;
@@ -154,28 +90,5 @@ public:
     LayerInterpret (Layer);
 };
 
-// Shell class
-class Shell {
-private:
-    // Data:
-    int interval;
-    Interface inter;
-    SocketType type;
-    // Function:
-    bool welcomeWindow(void);
-    bool initialInfo(void);
-    bool runServer(string);
-    bool runClient(void);
-public:
-    // Data:
-    
-    // Function:
-    bool startShell();
-    // Constructors
-    Shell () {
-        initialInfo();
-        welcomeWindow();
-    };
-};
 
 #endif /* interface_hpp */

@@ -117,6 +117,7 @@ Data ProcessTCP::encapsulate(string fromUpLayer) {
     exam = sourceIP + destinationIP+transfer(0,8)+transfer(6,8) + transfer(static_cast<int>(fromUpLayer.length()) / 2, 16)+ result.head + fromUpLayer;
     head_examination = HeadExamination(exam,fromUpLayer);
     
+    result.head = "";
     result.head.append(port_src);
     result.head.append(port_des);
     result.head.append(serial_number);

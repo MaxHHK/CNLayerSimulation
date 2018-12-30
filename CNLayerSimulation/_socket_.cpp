@@ -6,11 +6,11 @@
 #include "_socket_.hpp"
 #include <iostream>
 
-EmailSocket::EmailSocket(SocketType type){
+SelfSocket::SelfSocket(SocketType type, string desIP[], int desPort, int srcPort){
     int i;
     string ipaddr = "";
     for(i = 0; i < 4; ++i) {
-        ipaddr += basisInformation.desIP[i] +'.';
+        ipaddr += desIP[i] +'.';
     }
     ipaddr.pop_back();
     buffSize = 255;
@@ -18,7 +18,7 @@ EmailSocket::EmailSocket(SocketType type){
     if (typeOfSocket == Client) {
         const char* ipAddress = ipaddr.data();
         server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(basisInformation.desPort);
+        server_addr.sin_port = htons(desPort);
         inet_aton(ipAddress, &server_addr.sin_addr);
         memset(&server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
         if ((client_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
@@ -27,7 +27,7 @@ EmailSocket::EmailSocket(SocketType type){
         }
     } else if (typeOfSocket == Server) {
         server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(basisInformation.srcPort);
+        server_addr.sin_port = htons(srcPort);
         server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
         memset(&server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
         if((listen_sock = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
@@ -38,7 +38,7 @@ EmailSocket::EmailSocket(SocketType type){
 }
 
 
-EmailSocket::~EmailSocket() {
+SelfSocket::~SelfSocket() {
     if(typeOfSocket == Server) {
         close(client_sock);
         close(listen_sock);
@@ -48,21 +48,21 @@ EmailSocket::~EmailSocket() {
     
 }
 
-void EmailSocket::connectEmailServer() {
+void SelfSocket::connectEmailServer() {
     if (connect(client_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
         perror("connect failed\n");
         exit(0);
     }
 }
 
-void EmailSocket::bindSocket() {
+void SelfSocket::bindSocket() {
 //    if (bind(listen_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
 //        perror("bind failed\n");
 //        exit(0);
 //    }
 }
 
-void EmailSocket::loopSendAndRecviveMessage() {
+void SelfSocket::loopSendAndRecviveMessage() {
     string sendMessage;
     while(1) {
         cin >> sendMessage;
@@ -78,14 +78,14 @@ void EmailSocket::loopSendAndRecviveMessage() {
     }
 }
 
-void EmailSocket::sendMessageTo(string message) {
+void SelfSocket::sendMessageTo(string message) {
     const char *sendMessage = message.data();
     if(send(client_sock, sendMessage, strlen(sendMessage) + 1, 0) == -1) {
         perror("send failed\n");
     }
 }
 
-string EmailSocket::reveiveMessageFrom(bool showMsg) {
+string SelfSocket::reveiveMessageFrom(bool showMsg) {
     char receiveMessage[buffSize];
     memset(receiveMessage, 0, buffSize);
     if (recv(client_sock, receiveMessage, buffSize, 0) == -1){
@@ -98,27 +98,27 @@ string EmailSocket::reveiveMessageFrom(bool showMsg) {
     return receiveMsg;
 }
 
-void EmailSocket::listenSocket(int listenLog) {
+void SelfSocket::listenSocket(int listenLog) {
     if (listen(listen_sock, listenLog) == -1) {
         perror("listen failed\n");
         exit(0);
     }
 }
 
-void EmailSocket::acceptSocket() {
+void SelfSocket::acceptSocket() {
     if ((client_sock = accept(listen_sock, NULL, NULL)) == 0) {
         perror("accept failed");
     }
 }
 
-void EmailSocket::closeSocket(int socketData) {
+void SelfSocket::closeSocket(int socketData) {
     if (close(socketData) == -1) {
         perror("close failed\n");
         exit(0);
     }
 }
 
-string EmailSocket::run(string hexMessage) {
+string SelfSocket::run(string hexMessage) {
     string result = "";
     if(typeOfSocket == Client) {
         connectEmailServer();

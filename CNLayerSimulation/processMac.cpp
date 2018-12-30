@@ -7,7 +7,7 @@
 
 string ProcessMac:: getFCS(string M,string P) {
     string ans(32, '0');
-    //return ans;
+    return ans;
     int lenM, lenP, i, j;
     lenM = static_cast<int>( M.size() );
     lenP = static_cast<int>( P.size() );
@@ -55,7 +55,7 @@ Data ProcessMac:: encapsulate(string fromUpLayer) {
     }
     
     
-    //result.type = transfer(4096,16);
+    type = transfer(4096,16);
     
     result.head.append(sourceMac);
     result.head.append(destinationMac);
