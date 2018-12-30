@@ -1,1 +1,36 @@
+//
+//  TCPSource.cpp
+//  CNLayerSimulation
+//
+//  Created by Max on 2018/12/30.
+//  Copyright © 2018 Max. All rights reserved.
+//
+
+#include "TCPSource.hpp"
+
+
+
+TCPPackage Source:: tcpToStr(char* str) {
+TCPPackage msg;
+strcpy(msg.flags, str);
+strcpy(msg.sequence, str + 10);
+strcpy(msg.ask, str + 20);
+strcpy(msg.headLengthstr, str + 30);
+strcpy(msg.checksum, str + 35);
+return msg;
+}
+
+bool Source:: startSend(string filePath) {
+
+if (connect()) {
+
+}
+
+return true;
+}
+
+bool Source:: connect() {
+
+return true;
+}
 

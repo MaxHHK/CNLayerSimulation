@@ -23,7 +23,7 @@ private:
     TCPAutomation currentState;
     int fileOffset;
     int sequence;
-    int ack, window, length;
+    int ack, window, length, yourAck;
     int fileLength;
     bool Flags[4];
     Interface inter;

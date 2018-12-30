@@ -53,17 +53,18 @@ string Source:: makeTcp(int win, int len) {
 }
 
 bool Source:: dealTcp(string tcp) {
-    sscanf(tcp.data(), "[SYN, ACK] Seq=%d Ack=%d Win=%d Len=%d", &sequence, &ack, &window, &length);
-    
-    cout << basisInformation.desPort << "-->" << basisInformation.srcPort << " " << tcp << endl;
+    sscanf(tcp.data(), "[SYN, ACK] Seq=%d Ack=%d Win=%d Len=%d", &ack, &yourAck, &window, &length);
+    ack++;
+    cout << basisInformation.desPort << "-->" << "80 " << tcp << endl;
     return true;
 }
 
 bool Source:: sendMsg(string msg) {
-    cout << basisInformation.srcPort << "-->" << basisInformation.desPort << " " << msg << endl;
+    cout << "80" << "-->" << basisInformation.desPort << " " << msg << endl;
     mySleep(400);
     SelfSocket socket(Client, basisInformation.desIP, basisInformation.desPort, basisInformation.srcPort);
     socket.run(msg);
+    socket.~SelfSocket();
     return true;
 }
 
@@ -72,6 +73,7 @@ string Source:: recvMsg(void) {
     SelfSocket socket(Server, basisInformation.desIP, basisInformation.desPort, basisInformation.srcPort);
     string buf;
     buf = socket.run();
+    socket.~SelfSocket();
     return buf;
 }
 
@@ -85,7 +87,6 @@ bool Source:: sendFile(string filePath) {
 }
 
 bool Source:: startSend(string filePath) {
-    
     if (connect()) {
         sendFile(filePath);
     }
@@ -100,8 +101,10 @@ bool Source:: startSend(string filePath) {
 
 bool Source:: connect() {
     setFlags(1);
-    string first = makeTcp(14865, 0);
+    char first[100];
+    sprintf(first, "[SYN] Seq=%d Win=%d Len=%d MSS=%d", sequence, 32455, 0, 1460);
     sendMsg(first);
+    sequence++;
     
     string second = recvMsg();
     dealTcp(second);
@@ -116,17 +119,19 @@ bool Source:: disconnect() {
     setFlags(0, 1);
     string first = makeTcp(52288, 0);
     sendMsg(first);
+    sequence++;
     
     string second = recvMsg();
+    dealTcp(second);
     
     setFlags();
-    string forth = makeTcp(52288, 0);
-    sendMsg(forth);
+    string third = makeTcp(52288, 0);
+    sendMsg(third);
     return true;
 }
 
 Source:: Source() {
-    sequence = 1000;
+    sequence = 5000;
     ack = 1000;
     fileOffset = 0;
 }

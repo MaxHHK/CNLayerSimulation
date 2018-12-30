@@ -16,8 +16,8 @@ int main(int argc, const char * argv[]) {
     //shell.startShell();
     
     
-    basisInformation.desPort = 12345;
-    basisInformation.srcPort = 12345;
+    basisInformation.desPort = 12346;
+    basisInformation.srcPort = 12346;
     basisInformation.srcIP[0] = "172";
     basisInformation.srcIP[1] = "20";
     basisInformation.srcIP[2] = "10";
