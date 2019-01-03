@@ -35,16 +35,6 @@ bool Shell:: welcomeWindow(void) {
 }
 
 bool Shell:: initialInfo(void) {
-    basisInformation.desPort = 12345;
-    basisInformation.srcPort = 12345;
-    basisInformation.srcIP[0] = "172";
-    basisInformation.srcIP[1] = "20";
-    basisInformation.srcIP[2] = "10";
-    basisInformation.srcIP[3] = "2";
-    basisInformation.desIP[0] = "172";
-    basisInformation.desIP[1] = "20";
-    basisInformation.desIP[2] = "10";
-    basisInformation.desIP[3] = "2";
     for (int i = 0; i < 6; i++) {
         basisInformation.srcMac[i].push_back('0' + rand() % 10);
         basisInformation.desMac[i].push_back('0' + rand() % 10);
@@ -54,34 +44,27 @@ bool Shell:: initialInfo(void) {
     inter.moveToCommand();
     cout << "automate? ";
     cin >> interval;
+    getchar();
     return true;
 }
 
 bool Shell:: runServer(string msg = "") {
+    string filePath, msgFromPhysics, email;
+    fflush(stdout);
+    
+    Destination des;
+    filePath = des.startReceive("file.png");
+    fflush(stdout);
+    
     SelfSocket server(type, basisInformation.desIP, basisInformation.desPort, basisInformation.srcPort);
-    string msgFromPhysics, email;
     
     inter.printBoard(inter.edge);
     inter.moveToCommand();
     
     fflush(stdout);
     
-    
-    // test
-    
-    //    LayerInterpret mac(Mac);
-    //    mac.interpret(msg, 0, false);
-    //
-    //    LayerInterpret ip(IP);
-    //    ip.interpret(mac.encapsulatedData.dataOfUpLayer, 0, false);
-    //
-    //    LayerInterpret tcp(TCP);
-    //    tcp.interpret(ip.encapsulatedData.dataOfUpLayer, 0, false);
-    
-    // test
-    
-    
     msgFromPhysics = server.run();
+    
     msg = hexToStr(msgFromPhysics);
     msg = msgFromPhysics;
     
@@ -96,7 +79,8 @@ bool Shell:: runServer(string msg = "") {
     
     ApplicationLayer receiveEmail;
     cout << hexToStr(tcp.encapsulatedData.dataOfUpLayer);
-    receiveEmail.writeEmail(hexToStr(tcp.encapsulatedData.dataOfUpLayer));
+    
+    receiveEmail.writeEmail(hexToStr(tcp.encapsulatedData.dataOfUpLayer), filePath);
     
     return true;
 }
@@ -120,8 +104,11 @@ bool Shell:: runClient(void) {
     LayerInterpret mac(Mac);
     mac.interpret(ip.encapsulatedData.head + ip.encapsulatedData.dataOfUpLayer, interval);
     
-    //test
-    //runServer(mac.encapsulatedData.head + mac.encapsulatedData.dataOfUpLayer + mac.encapsulatedData.tail);
+    
+    Source source;
+    source.startSend(emailClient.filePath);
+    
+    sleep(2);
     
     client.run(mac.encapsulatedData.head + mac.encapsulatedData.dataOfUpLayer + mac.encapsulatedData.tail);
     

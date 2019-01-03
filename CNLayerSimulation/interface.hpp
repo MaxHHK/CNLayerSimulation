@@ -22,9 +22,9 @@
 class ApplicationLayer {
 private:
     // Data:
-    static const string Titles[5];
-    static const int Places[5];
-    static const int Lines[5];
+    static const string Titles[6];
+    static const int Places[6];
+    static const int Lines[6];
     static const int INTER = 3;
     static const int LEFT_OFFSET = 25;
     static const int WIDTH = 90;
@@ -33,11 +33,11 @@ private:
     // Function:
 public:
     // Data:
-    
+    string filePath;
     // Function:
     // Constructors
     string sendEmail(void);
-    bool writeEmail(string);
+    bool writeEmail(string, string);
     ApplicationLayer ();
 };
 

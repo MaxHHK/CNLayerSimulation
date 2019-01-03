@@ -19,6 +19,7 @@ class Shell {
 private:
     // Data:
     int interval;
+    bool debug;
     Interface inter;
     SocketType type;
     // Function:
@@ -35,6 +36,7 @@ public:
     Shell () {
         initialInfo();
         welcomeWindow();
+        debug = false;
     };
 };
 

@@ -7,42 +7,34 @@
 //
 
 #include "interface.hpp"
-const string ApplicationLayer:: Titles[5] = {"To", "Cc", "Subject", "From", "Text"};
-const int ApplicationLayer:: Places[5] = {3, 8, 13, 18, 23};
-const int ApplicationLayer:: Lines[5] = {4, 4, 4, 4, 10};
+const string ApplicationLayer:: Titles[6] = {"To", "Cc", "Subject", "From", "Text", "Accessory"};
+const int ApplicationLayer:: Places[6] = {3, 8, 13, 18, 23, 29};
+const int ApplicationLayer:: Lines[6] = {4, 4, 4, 4, 6, 3};
 
+string Infos[5] = {"zzz@qq.com", "no", "A file", "maxhhk@outlook.com", "File"};
 
 string ApplicationLayer:: sendEmail(void) {
-    string data;
+    string data = "$$";
     for (int i = 0; i < 5; i++) {
-        data += (Titles[i] + ":" + inter.getLine(windows[i]));
-        data.push_back(40);
+        data += (inter.getLine(windows[i]) + "$$");
     }
     inter.moveToCommand();
+    filePath = inter.getLine(windows[5]);
     return data;
 }
 
-bool ApplicationLayer:: writeEmail(string data) {
+bool ApplicationLayer:: writeEmail(string data, string filePath) {
     vector<string> datas;
-    int head = 0, i, times = 0;
-    for (i = 0; i < data.size(); i++) {
-        if (data[i] == 40) {
-            string tmp = data.substr(head, i - head);
-            tmp = tmp.substr(Titles[times].size() + 1, tmp.size() - Titles[times].size() + 1);
-            times++;
-            datas.push_back(tmp);
-            head = i + 1;
-        }
-    }
-    datas.push_back(data.substr(head, i - head));
+    int i;
     for (int i = 0; i < 5; i++) {
-        inter.printAtSegment(windows[i], 1, datas[i].data());
+        inter.printAtSegment(windows[i], 1, Infos[i].data());
     }
+    inter.printAtSegment(windows[5], 1, ("./" + filePath).data());
     return true;
 }
 
 ApplicationLayer:: ApplicationLayer () {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         Window tmp(Places[i], LEFT_OFFSET, WIDTH, Lines[i], Titles[i]);
         windows.push_back(tmp);
         inter.printBoard(tmp);
@@ -65,7 +57,6 @@ const string LayerInterpret:: TITLES[6] = {
     "Head Window",
     "Tail"
 };
-
 
 const string LayerInterpret:: Infos[6] = {
     "Physical layer",

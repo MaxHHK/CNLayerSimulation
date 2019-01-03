@@ -14,7 +14,7 @@ SelfSocket::SelfSocket(SocketType type, string desIP[], int desPort, int srcPort
         ipaddr += desIP[i] +'.';
     }
     ipaddr.pop_back();
-    buffSize = 255;
+    buffSize = 65535;
     typeOfSocket = type;
     if (typeOfSocket == Client) {
         const char* ipAddress = ipaddr.data();
@@ -81,7 +81,7 @@ void SelfSocket::loopSendAndRecviveMessage() {
 
 void SelfSocket::sendMessageTo(string message) {
     const char *sendMessage = message.data();
-    if(send(client_sock, sendMessage, strlen(sendMessage) + 1, 0) == -1) {
+    if(send(client_sock, sendMessage, strlen(sendMessage), 0) == -1) {
         perror("send failed\n");
     }
 }

@@ -13,7 +13,6 @@
 #include "apue.h"
 #include "myerror.h"
 
-
 using namespace std;
 
 namespace Tools {
@@ -23,7 +22,9 @@ namespace Tools {
     static string hexToStr(string hex);
     static string transfer(int x, int length);
     static string bmoc_calculation(string a, string b);
-    int readFile(char* path, char* buff, int start, int length);
+    string readFile(const char* path, char* buff, int start, int length);
+    static string base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len);
+    static string base64_decode(string const& encoded_string);
 }
 
 #endif /* tool_hpp */
