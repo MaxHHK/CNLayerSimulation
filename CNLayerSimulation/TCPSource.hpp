@@ -20,7 +20,6 @@
 #endif
 
 // Source class
-
 class Source {
 private:
     // Data:

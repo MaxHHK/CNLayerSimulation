@@ -40,6 +40,7 @@
 		506CD1E421B9829000438F79 /* tool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tool.cpp; sourceTree = "<group>"; };
 		506CD1E521B9829000438F79 /* tool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = tool.hpp; sourceTree = "<group>"; };
 		506DA85621D986E20049163F /* DebugLog */ = {isa = PBXFileReference; lastKnownFileType = text; path = DebugLog; sourceTree = "<group>"; };
+		50A02D1F21E2035E004B2DA7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		50F9F4A121D8531D00AC1B23 /* TCPSource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TCPSource.cpp; sourceTree = "<group>"; };
 		50F9F4A221D8531D00AC1B23 /* TCPSource.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TCPSource.hpp; sourceTree = "<group>"; };
 		50F9F4A321D8537A00AC1B23 /* Window.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Window.cpp; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		506CD1D021B7E93900438F79 /* CNLayerSimulation */ = {
 			isa = PBXGroup;
 			children = (
+				50A02D1F21E2035E004B2DA7 /* README.md */,
 				506DA85621D986E20049163F /* DebugLog */,
 				500F6B5D21DE09DB002B085D /* testdup */,
 				50F9F4AC21D8BE2E00AC1B23 /* file */,

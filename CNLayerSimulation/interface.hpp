@@ -35,9 +35,9 @@ public:
     // Data:
     string filePath;
     // Function:
-    // Constructors
     string sendEmail(void);
     bool writeEmail(string, string);
+    // Constructors
     ApplicationLayer ();
 };
 

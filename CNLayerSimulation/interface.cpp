@@ -25,7 +25,6 @@ string ApplicationLayer:: sendEmail(void) {
 
 bool ApplicationLayer:: writeEmail(string data, string filePath) {
     vector<string> datas;
-    int i;
     for (int i = 0; i < 5; i++) {
         inter.printAtSegment(windows[i], 1, Infos[i].data());
     }
