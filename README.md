@@ -22,7 +22,7 @@ Unix内核的操作系统，推荐shel台宽度大于150，高度大于40
 - Window.cpp，Window.hpp，窗口绘制
 ## 使用方法
 ### 编译
-gcc main.c -o CNSimulation
+g++ main.c -o CNSimulation
 ### 运行
 - ./CNSimulation [-local]
 - 带参数为本地回环测试
